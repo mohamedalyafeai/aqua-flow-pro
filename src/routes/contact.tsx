@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
+import { z as zs } from "zod";
 import { Phone, Mail, MapPin, Clock, MessageCircle, Send } from "lucide-react";
 import { z } from "zod";
 import { useLang } from "@/lib/i18n";
@@ -11,15 +12,28 @@ import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
 import { PageHeader } from "./about";
+import { submitLead } from "@/lib/leads.functions";
+import { products } from "@/lib/site-data";
+
+const contactSearchSchema = zs.object({
+  product: zs.string().optional(),
+});
 
 export const Route = createFileRoute("/contact")({
+  validateSearch: (s) => contactSearchSchema.parse(s),
   head: () => ({
     meta: [
-      { title: "تواصل معنا | شركة رواد المضخات للتجارة" },
-      { name: "description", content: "تواصل مع شركة رواد المضخات للتجارة للحصول على عرض سعر أو استشارة مجانية لخدمات المضخات والتحلية والصيانة." },
-      { property: "og:title", content: "Contact — Pioneers Pumps" },
-      { property: "og:description", content: "Get in touch for a free consultation or quote." },
+      { title: "تواصل معنا واطلب عرض سعر | رواد المضخات للتجارة" },
+      { name: "description", content: "تواصل مع رواد المضخات للحصول على عرض سعر أو استشارة مجانية لخدمات المضخات، أنظمة التحلية، الفلاتر، وأنظمة الضباب. نرد خلال ساعات العمل." },
+      { property: "og:title", content: "Contact & Request a Quote | Pioneers Pumps" },
+      { property: "og:description", content: "Get a free consultation or quote for pumps, RO systems, filtration, and mist cooling. We respond during business hours." },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: "/contact" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Contact — Pioneers Pumps" },
+      { name: "twitter:description", content: "Free consultation & quotes for pumps and water systems." },
     ],
+    links: [{ rel: "canonical", href: "/contact" }],
   }),
   component: ContactPage,
 });
@@ -34,9 +48,17 @@ const schema = z.object({
 
 function ContactPage() {
   const { tr, lang } = useLang();
+  const { product: productSlug } = Route.useSearch();
+  const prefill = productSlug ? products.find((p) => p.slug === productSlug) : undefined;
+  const prefillService = prefill ? (lang === "ar" ? prefill.ar : prefill.en) : "";
+  const prefillMessage = prefill
+    ? lang === "ar"
+      ? `أرغب في طلب عرض سعر لمنتج: ${prefill.ar}. يرجى التواصل معي بالتفاصيل.`
+      : `I'd like a quote for: ${prefill.en}. Please contact me with details.`
+    : "";
   const [submitting, setSubmitting] = useState(false);
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = new FormData(e.currentTarget);
     const data = Object.fromEntries(form.entries());
@@ -48,12 +70,37 @@ function ContactPage() {
     setSubmitting(true);
     const text = `${lang === "ar" ? "طلب جديد" : "New request"}%0A${result.data.name} - ${result.data.phone}%0A${result.data.service ?? ""}%0A${result.data.message}`;
     const target = e.currentTarget;
-    setTimeout(() => {
+    try {
+      await submitLead({
+        data: {
+          name: result.data.name,
+          phone: result.data.phone,
+          email: result.data.email || "",
+          service: result.data.service || "",
+          product_slug: productSlug || "",
+          message: result.data.message,
+          source: productSlug ? "product_quote" : "contact_form",
+          lang,
+        },
+      });
+      toast.success(
+        lang === "ar"
+          ? "تم إرسال طلبك بنجاح، سنتواصل معك قريباً."
+          : "Your request was sent. We'll be in touch soon."
+      );
+      // Also open WhatsApp as a secondary fast channel
       window.open(`https://wa.me/966500000000?text=${text}`, "_blank");
-      toast.success(lang === "ar" ? "تم إرسال طلبك، سنتواصل معك قريباً" : "Your request was sent. We'll be in touch soon.");
       target.reset();
+    } catch (err) {
+      console.error(err);
+      toast.error(
+        lang === "ar"
+          ? "تعذر الإرسال، يرجى المحاولة مرة أخرى أو التواصل عبر واتساب."
+          : "Could not submit. Please try again or contact us on WhatsApp."
+      );
+    } finally {
       setSubmitting(false);
-    }, 600);
+    }
   };
 
   const contactItems = [
@@ -104,6 +151,13 @@ function ContactPage() {
 
           <form onSubmit={onSubmit} className="lg:col-span-3 rounded-3xl border bg-card p-6 shadow-card md:p-8">
             <h2 className="text-2xl font-bold">{lang === "ar" ? "أرسل لنا رسالة" : "Send us a message"}</h2>
+            {prefill && (
+              <div className="mt-3 rounded-lg border border-brand/20 bg-brand/5 p-3 text-sm text-brand">
+                {lang === "ar"
+                  ? `طلب عرض سعر لـ: ${prefill.ar}`
+                  : `Requesting a quote for: ${prefill.en}`}
+              </div>
+            )}
             <div className="mt-6 grid gap-4 sm:grid-cols-2">
               <div>
                 <Label htmlFor="name">{tr("form_name")} *</Label>
@@ -119,11 +173,11 @@ function ContactPage() {
               </div>
               <div>
                 <Label htmlFor="service">{tr("form_service")}</Label>
-                <Input id="service" name="service" maxLength={100} className="mt-1.5" />
+                <Input id="service" name="service" maxLength={100} className="mt-1.5" defaultValue={prefillService} />
               </div>
               <div className="sm:col-span-2">
                 <Label htmlFor="message">{tr("form_message")} *</Label>
-                <Textarea id="message" name="message" required maxLength={1000} rows={5} className="mt-1.5" />
+                <Textarea id="message" name="message" required maxLength={1000} rows={5} className="mt-1.5" defaultValue={prefillMessage} />
               </div>
             </div>
             <Button type="submit" disabled={submitting} className="mt-6 w-full bg-brand text-white hover:bg-brand-deep sm:w-auto">
