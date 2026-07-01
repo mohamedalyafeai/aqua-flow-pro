@@ -16,10 +16,6 @@ export type LeadInput = z.infer<typeof leadSchema>;
 
 const NOTIFY_EMAIL = "mohamedyafei17@gmail.com";
 
-function esc(s: string | undefined | null) {
-  return String(s ?? "").replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c] as string));
-}
-
 export const submitLead = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) => leadSchema.parse(input))
   .handler(async ({ data }) => {
