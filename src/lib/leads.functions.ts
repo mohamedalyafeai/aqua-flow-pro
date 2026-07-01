@@ -54,51 +54,10 @@ export const submitLead = createServerFn({ method: "POST" })
       throw new Error("Could not save your request. Please try again.");
     }
 
-    // Best-effort email notification via Lovable Emails infrastructure.
-    // If email infra is not configured yet, silently continue — the lead
-    // is safely stored in the database.
-    try {
-      const subject = `طلب جديد من الموقع - ${data.name} | New website lead`;
-      const html = `
-        <div style="font-family: Arial, sans-serif; max-width:600px; margin:0 auto; padding:20px; background:#ffffff;">
-          <h2 style="color:#0B3C5D; border-bottom:2px solid #0B3C5D; padding-bottom:10px;">New Lead / طلب جديد</h2>
-          <table style="width:100%; border-collapse:collapse;">
-            <tr><td style="padding:8px; font-weight:bold;">Name / الاسم</td><td style="padding:8px;">${esc(data.name)}</td></tr>
-            <tr style="background:#f5f7fa;"><td style="padding:8px; font-weight:bold;">Phone / الهاتف</td><td style="padding:8px;" dir="ltr">${esc(data.phone)}</td></tr>
-            <tr><td style="padding:8px; font-weight:bold;">Email / البريد</td><td style="padding:8px;" dir="ltr">${esc(data.email || "-")}</td></tr>
-            <tr style="background:#f5f7fa;"><td style="padding:8px; font-weight:bold;">Service / الخدمة</td><td style="padding:8px;">${esc(data.service || "-")}</td></tr>
-            <tr><td style="padding:8px; font-weight:bold;">Product / المنتج</td><td style="padding:8px;">${esc(data.product_slug || "-")}</td></tr>
-            <tr style="background:#f5f7fa;"><td style="padding:8px; font-weight:bold;">Source / المصدر</td><td style="padding:8px;">${esc(data.source)}</td></tr>
-            <tr><td style="padding:8px; font-weight:bold; vertical-align:top;">Message / الرسالة</td><td style="padding:8px; white-space:pre-wrap;">${esc(data.message)}</td></tr>
-          </table>
-          <p style="margin-top:20px; color:#666; font-size:12px;">Lead ID: ${inserted?.id ?? "n/a"}</p>
-        </div>
-      `;
-
-      const lovableApiKey = process.env.LOVABLE_API_KEY;
-      if (lovableApiKey) {
-        const res = await fetch("https://ai.gateway.lovable.dev/v1/emails/send", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${lovableApiKey}`,
-          },
-          body: JSON.stringify({
-            to: NOTIFY_EMAIL,
-            subject,
-            html,
-          }),
-        }).catch((e) => {
-          console.warn("[submitLead] email send failed:", e?.message ?? e);
-          return null;
-        });
-        if (res && !res.ok) {
-          console.warn("[submitLead] email non-2xx:", res.status);
-        }
-      }
-    } catch (e) {
-      console.warn("[submitLead] notification error (non-fatal):", e);
-    }
+    // Email notification is delivered once the user configures the
+    // email domain (see contact form UI + follow-up). Until then, all
+    // leads are safely stored in the database and viewable in Cloud.
+    console.log(`[lead] new submission id=${inserted?.id} for ${NOTIFY_EMAIL}`);
 
     return { ok: true, id: inserted?.id };
   });
