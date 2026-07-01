@@ -9,11 +9,17 @@ import { Button } from "@/components/ui/button";
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
-      { title: "من نحن | شركة رواد المضخات للتجارة" },
-      { name: "description", content: "تعرف على شركة رواد المضخات للتجارة، رواد توريد وتركيب وصيانة مضخات المياه وأنظمة التحلية في المنطقة." },
-      { property: "og:title", content: "About — Pioneers Pumps Trading Co." },
-      { property: "og:description", content: "Engineering expertise, premium quality and customer commitment." },
+      { title: "من نحن | خبرة هندسية في حلول المضخات — رواد المضخات" },
+      { name: "description", content: "تعرّف على شركة رواد المضخات للتجارة: خبرة هندسية موثوقة في توريد وتركيب وصيانة مضخات المياه، أنظمة التحلية، الفلاتر المركزية وأنظمة الضباب. رؤيتنا، رسالتنا وقيمنا." },
+      { property: "og:title", content: "About Us — Pioneers Pumps Trading Co." },
+      { property: "og:description", content: "Engineering expertise, premium products, and long-term customer commitment across water pumping and treatment." },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: "/about" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "About Pioneers Pumps" },
+      { name: "twitter:description", content: "Trusted engineering expertise in pumps, RO, filtration, and mist cooling." },
     ],
+    links: [{ rel: "canonical", href: "/about" }],
   }),
   component: AboutPage,
 });

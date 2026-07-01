@@ -11,11 +11,19 @@ import { Button } from "@/components/ui/button";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "شركة رواد المضخات للتجارة | Pioneers Pumps Trading Co." },
-      { name: "description", content: "حلول متكاملة لمضخات المياه، أنظمة التحلية RO، الفلاتر المركزية، أنظمة الضباب والرذاذ، تركيب، صيانة وقطع غيار أصلية." },
-      { property: "og:title", content: "Pioneers Pumps Trading Co. — شركة رواد المضخات" },
-      { property: "og:description", content: "Reliable water solutions you can trust — pumps, RO systems, mist cooling, installation & maintenance." },
+      { title: "رواد المضخات للتجارة | مضخات مياه، أنظمة تحلية RO، فلاتر مركزية وأنظمة ضباب" },
+      { name: "description", content: "شركة رواد المضخات للتجارة: توريد وتركيب وصيانة مضخات المياه، المضخات الغاطسة، المحركات الكهربائية، أنظمة التحلية RO، الفلاتر المركزية وأنظمة الضباب. جودة عالية، أسعار شفافة، ودعم ما بعد البيع." },
+      { name: "keywords", content: "مضخات مياه, مضخات غاطسة, أنظمة تحلية, RO, فلاتر مركزية, أنظمة ضباب, water pumps, submersible pumps, RO systems, central filters, mist cooling, Saudi Arabia" },
+      { property: "og:title", content: "Pioneers Pumps Trading Co. — Water Pumps, RO & Filtration" },
+      { property: "og:description", content: "Reliable water solutions — pumps, RO systems, central filters, mist cooling, installation & maintenance across Saudi Arabia." },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: "/" },
+      { property: "og:site_name", content: "Pioneers Pumps Trading Co." },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Pioneers Pumps — Water Solutions You Can Trust" },
+      { name: "twitter:description", content: "Pumps, RO systems, filtration, mist cooling, installation & maintenance." },
     ],
+    links: [{ rel: "canonical", href: "/" }],
   }),
   component: Index,
 });
