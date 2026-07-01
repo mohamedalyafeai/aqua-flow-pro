@@ -8,11 +8,17 @@ import { PageHeader } from "./about";
 export const Route = createFileRoute("/services")({
   head: () => ({
     meta: [
-      { title: "خدماتنا | شركة رواد المضخات للتجارة" },
-      { name: "description", content: "توريد وتركيب وصيانة مضخات المياه، أنظمة التحلية RO، الفلاتر المركزية، وأنظمة الضباب والرذاذ." },
-      { property: "og:title", content: "Services — Pioneers Pumps" },
-      { property: "og:description", content: "Pumps, RO systems, central filters, mist cooling, installation & maintenance." },
+      { title: "خدماتنا | توريد، تركيب، صيانة وقطع غيار — رواد المضخات" },
+      { name: "description", content: "خدمات شركة رواد المضخات: توريد مضخات المياه والغاطسة، المحركات الكهربائية، أنظمة تحلية RO، الفلاتر المركزية، أنظمة الضباب، بالإضافة إلى التركيب الاحترافي والصيانة الدورية وقطع الغيار الأصلية." },
+      { property: "og:title", content: "Services — Supply, Install, Maintain | Pioneers Pumps" },
+      { property: "og:description", content: "Water pumps, submersibles, motors, RO systems, central filtration, mist cooling, professional installation & maintenance, genuine spare parts." },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: "/services" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Services — Pioneers Pumps" },
+      { name: "twitter:description", content: "Full-service water solutions: supply, install, and maintain." },
     ],
+    links: [{ rel: "canonical", href: "/services" }],
   }),
   component: ServicesPage,
 });
