@@ -2,7 +2,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { CheckCircle2, Clock, ChevronRight, ChevronLeft, Wrench, Award } from "lucide-react";
 import { useLang } from "@/lib/i18n";
 import { Section } from "@/components/site/Section";
-import { getProductBySlug, products } from "@/lib/site-data";
+import { getProductBySlug, products, type Application, type ProductSpec } from "@/lib/site-data";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
@@ -118,7 +118,7 @@ function CategoryPage() {
                     {tr("avail_on_order")}
                   </Badge>
                 )}
-                {product.applications.map((a) => (
+                {product.applications.map((a: Application) => (
                   <Badge key={a} variant="outline" className="border-white/30 text-white">
                     {lang === "ar" ? APP_LABELS[a].ar : APP_LABELS[a].en}
                   </Badge>
@@ -170,7 +170,7 @@ function CategoryPage() {
             </h2>
             <div className="mt-6 overflow-hidden rounded-2xl border bg-card shadow-card">
               <dl className="divide-y">
-                {product.specs.map((s, i) => (
+                {product.specs.map((s: ProductSpec, i: number) => (
                   <div key={i} className="grid grid-cols-1 gap-1 p-4 sm:grid-cols-3 sm:gap-4 sm:p-5">
                     <dt className="text-sm font-semibold text-muted-foreground">
                       {lang === "ar" ? s.labelAr : s.labelEn}
@@ -188,7 +188,7 @@ function CategoryPage() {
               {tr("usecases_title")}
             </h2>
             <ul className="mt-6 grid gap-3 sm:grid-cols-2">
-              {(lang === "ar" ? product.useCasesAr : product.useCasesEn).map((u, i) => (
+              {(lang === "ar" ? product.useCasesAr : product.useCasesEn).map((u: string, i: number) => (
                 <li key={i} className="flex items-start gap-3 rounded-xl border bg-card p-4">
                   <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-cyan-accent" />
                   <span className="text-sm">{u}</span>
