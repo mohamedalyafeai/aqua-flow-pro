@@ -30,30 +30,27 @@ export const submitLead = createServerFn({ method: "POST" })
       auth: { persistSession: false, autoRefreshToken: false, storage: undefined },
     });
 
-    const { data: inserted, error } = await supabase
-      .from("leads")
-      .insert({
-        name: data.name,
-        phone: data.phone,
-        email: data.email || null,
-        service: data.service || null,
-        product_slug: data.product_slug || null,
-        message: data.message,
-        source: data.source,
-        lang: data.lang,
-      })
-      .select("id")
-      .single();
+    // NOTE: no .select() here — anon may only INSERT (no SELECT policy), and
+    // asking PostgREST to return the row would make the whole insert fail.
+    const { error } = await supabase.from("leads").insert({
+      name: data.name,
+      phone: data.phone,
+      email: data.email || null,
+      service: data.service || null,
+      product_slug: data.product_slug || null,
+      message: data.message,
+      source: data.source,
+      lang: data.lang,
+    });
 
     if (error) {
       console.error("[submitLead] insert error:", error.message);
       throw new Error("Could not save your request. Please try again.");
     }
 
-    // Email notification is delivered once the user configures the
-    // email domain (see contact form UI + follow-up). Until then, all
-    // leads are safely stored in the database and viewable in Cloud.
-    console.log(`[lead] new submission id=${inserted?.id} for ${NOTIFY_EMAIL}`);
+    // Email notification is delivered once an email sender domain is configured.
+    // Until then, all leads are safely stored in the database.
+    console.log(`[lead] new submission stored (notify: ${NOTIFY_EMAIL})`);
 
-    return { ok: true, id: inserted?.id };
+    return { ok: true };
   });
