@@ -14,15 +14,53 @@ export type Database = {
   }
   public: {
     Tables: {
+      lead_replies: {
+        Row: {
+          author_id: string
+          body: string
+          channel: string
+          created_at: string
+          id: string
+          lead_id: string
+        }
+        Insert: {
+          author_id: string
+          body: string
+          channel?: string
+          created_at?: string
+          id?: string
+          lead_id: string
+        }
+        Update: {
+          author_id?: string
+          body?: string
+          channel?: string
+          created_at?: string
+          id?: string
+          lead_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lead_replies_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       leads: {
         Row: {
+          admin_notes: string | null
           created_at: string
           email: string | null
           id: string
           lang: string
+          last_contacted_at: string | null
           message: string
           name: string
           phone: string
+          preferred_date: string | null
           product_slug: string | null
           service: string | null
           source: string
@@ -30,13 +68,16 @@ export type Database = {
           user_agent: string | null
         }
         Insert: {
+          admin_notes?: string | null
           created_at?: string
           email?: string | null
           id?: string
           lang?: string
+          last_contacted_at?: string | null
           message: string
           name: string
           phone: string
+          preferred_date?: string | null
           product_slug?: string | null
           service?: string | null
           source?: string
@@ -44,13 +85,16 @@ export type Database = {
           user_agent?: string | null
         }
         Update: {
+          admin_notes?: string | null
           created_at?: string
           email?: string | null
           id?: string
           lang?: string
+          last_contacted_at?: string | null
           message?: string
           name?: string
           phone?: string
+          preferred_date?: string | null
           product_slug?: string | null
           service?: string | null
           source?: string
