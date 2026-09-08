@@ -8,7 +8,7 @@ import { LeadForm } from "@/components/site/LeadForm";
 import { Toaster } from "@/components/ui/sonner";
 import { teamQualifications, caseStudies, installationServicePricing } from "@/lib/catalog";
 import { business } from "@/lib/business";
-import { process as processSteps } from "@/lib/site-data";
+import { processSteps } from "@/lib/site-data";
 
 export const Route = createFileRoute("/installation")({
   head: () => ({
