@@ -190,6 +190,30 @@ function ProductsPage() {
                     </Link>
                   </h3>
                   <p className="mt-2 text-sm text-muted-foreground">{lang === "ar" ? p.descAr : p.descEn}</p>
+                  {(() => {
+                    const models = modelsByCategory(p.slug);
+                    const range = priceRangeForCategory(p.slug);
+                    if (models.length === 0) return null;
+                    return (
+                      <div className="mt-4 rounded-xl bg-secondary/50 p-3">
+                        <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                          {lang === "ar" ? `${models.length} موديل متوفر` : `${models.length} models available`}
+                        </div>
+                        <ul className="mt-2 space-y-1 text-xs text-foreground/80">
+                          {models.slice(0, 3).map((m) => (
+                            <li key={m.id} className="truncate" dir="ltr">
+                              {m.brand} {m.model}
+                            </li>
+                          ))}
+                        </ul>
+                        {range && (
+                          <div className="mt-2 text-xs font-bold text-brand" dir="ltr">
+                            {range.min.toLocaleString("en-US")} – {range.max.toLocaleString("en-US")} SAR
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })()}
                   <div className="mt-auto flex flex-wrap gap-2 pt-4">
                     <Button asChild size="sm" variant="outline">
                       <Link to="/products/$category" params={{ category: p.slug }}>
