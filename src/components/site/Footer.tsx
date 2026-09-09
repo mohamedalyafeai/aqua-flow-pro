@@ -30,6 +30,8 @@ export function Footer() {
             <li><Link to="/about" className="text-white/80 hover:text-white">{tr("nav_about")}</Link></li>
             <li><Link to="/services" className="text-white/80 hover:text-white">{tr("nav_services")}</Link></li>
             <li><Link to="/products" className="text-white/80 hover:text-white">{tr("nav_products")}</Link></li>
+            <li><Link to="/pricing" className="text-white/80 hover:text-white">{tr("nav_pricing")}</Link></li>
+            <li><Link to="/installation" className="text-white/80 hover:text-white">{tr("nav_installation")}</Link></li>
             <li><Link to="/contact" className="text-white/80 hover:text-white">{tr("nav_contact")}</Link></li>
           </ul>
         </div>
@@ -50,7 +52,7 @@ export function Footer() {
           <ul className="mt-4 space-y-3 text-sm text-white/80">
             <li className="flex items-start gap-2"><Phone className="mt-0.5 h-4 w-4 shrink-0 text-cyan-accent" /><a dir="ltr" href={business.phoneHref} className="hover:text-cyan-accent">{business.phoneDisplay}</a></li>
             <li className="flex items-start gap-2"><Mail className="mt-0.5 h-4 w-4 shrink-0 text-cyan-accent" /><a href={business.emailHref} className="hover:text-cyan-accent">{business.email}</a></li>
-            <li className="flex items-start gap-2"><MapPin className="mt-0.5 h-4 w-4 shrink-0 text-cyan-accent" />{lang === "ar" ? "الرياض، المملكة العربية السعودية" : "Riyadh, Saudi Arabia"}</li>
+            <li className="flex items-start gap-2"><MapPin className="mt-0.5 h-4 w-4 shrink-0 text-cyan-accent" />{lang === "ar" ? business.addressAr : business.addressEn}</li>
           </ul>
         </div>
       </div>
