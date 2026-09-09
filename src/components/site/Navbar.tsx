@@ -21,6 +21,8 @@ export function Navbar() {
     { to: "/about", label: tr("nav_about") },
     { to: "/services", label: tr("nav_services") },
     { to: "/products", label: tr("nav_products") },
+    { to: "/pricing", label: tr("nav_pricing") },
+    { to: "/installation", label: tr("nav_installation") },
     { to: "/contact", label: tr("nav_contact") },
   ] as const;
 
