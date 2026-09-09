@@ -14,6 +14,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { PageHeader } from "./about";
 import { submitLead } from "@/lib/leads.functions";
 import { products } from "@/lib/site-data";
+import { business } from "@/lib/business";
 
 const contactSearchSchema = zs.object({
   product: zs.string().optional(),
