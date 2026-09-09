@@ -1,3 +1,4 @@
+import { business } from "@/lib/business";
 import { useEffect, useState } from "react";
 import { ArrowUp, MessageCircle } from "lucide-react";
 
@@ -12,7 +13,7 @@ export function FloatingActions() {
   return (
     <>
       <a
-        href="https://wa.me/966500000000"
+        href={business.whatsappHref}
         target="_blank"
         rel="noopener noreferrer"
         aria-label="WhatsApp"

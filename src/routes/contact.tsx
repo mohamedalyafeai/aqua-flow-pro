@@ -146,7 +146,7 @@ function ContactPage() {
             <div className="mt-6 overflow-hidden rounded-2xl border shadow-card">
               <iframe
                 title="Map"
-                src="https://www.google.com/maps?q=Riyadh&output=embed"
+                src={business.mapEmbed}
                 width="100%"
                 height="260"
                 loading="lazy"
