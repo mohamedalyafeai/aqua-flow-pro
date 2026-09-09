@@ -2,6 +2,8 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { CheckCircle2, Clock, ChevronRight, ChevronLeft, Wrench, Award } from "lucide-react";
 import { useLang } from "@/lib/i18n";
 import { Section } from "@/components/site/Section";
+import { modelsByCategory } from "@/lib/catalog";
+import { business } from "@/lib/business";
 import { getProductBySlug, products, type Application, type ProductSpec } from "@/lib/site-data";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -195,6 +197,46 @@ function CategoryPage() {
                 </li>
               ))}
             </ul>
+
+            <h2 className="mt-12 flex items-center gap-2 text-2xl font-bold text-brand">
+              <Wrench className="h-6 w-6" />
+              {lang === "ar" ? "الموديلات المتوفرة" : "Available Models"}
+            </h2>
+            <div className="mt-6 space-y-4">
+              {modelsByCategory(product.slug).map((m) => (
+                <div key={m.id} className="rounded-2xl border bg-card p-5 shadow-card">
+                  <div className="flex flex-wrap items-start justify-between gap-3">
+                    <div>
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span className="text-xs font-semibold uppercase tracking-wider text-brand">{m.brand}</span>
+                        <Badge variant="outline" className="text-xs" dir="ltr">{m.model}</Badge>
+                        <Badge variant={m.availability === "in-stock" ? "default" : "secondary"} className="text-xs">
+                          {m.availability === "in-stock" ? tr("avail_in_stock") : tr("avail_on_order")}
+                        </Badge>
+                      </div>
+                      <h3 className="mt-2 font-bold">{lang === "ar" ? m.ar : m.en}</h3>
+                    </div>
+                    <div className="text-end">
+                      <div className="text-xs text-muted-foreground">{lang === "ar" ? "السعر التقديري" : "Est. price"}</div>
+                      <div className="font-bold text-brand" dir="ltr">
+                        {m.priceMin.toLocaleString("en-US")} – {m.priceMax.toLocaleString("en-US")} SAR
+                      </div>
+                    </div>
+                  </div>
+                  <dl className="mt-4 grid gap-x-6 gap-y-2 sm:grid-cols-2">
+                    {m.specs.map((s, i) => (
+                      <div key={i} className="flex justify-between gap-3 border-b border-dashed py-1 text-sm">
+                        <dt className="text-muted-foreground">{lang === "ar" ? s.labelAr : s.labelEn}</dt>
+                        <dd className="font-medium" dir="ltr">{lang === "ar" ? s.valueAr : s.valueEn}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                  <Button asChild size="sm" className="mt-4 bg-brand text-white hover:bg-brand-deep">
+                    <Link to="/contact" search={{ product: product.slug }}>{tr("cta_quote")}</Link>
+                  </Button>
+                </div>
+              ))}
+            </div>
           </div>
 
           <aside className="lg:col-span-1">
@@ -219,7 +261,7 @@ function CategoryPage() {
                 <Link to="/contact" search={{ product: product.slug }}>{tr("cta_quote")}</Link>
               </Button>
               <Button asChild variant="outline" className="mt-2 w-full">
-                <a href="https://wa.me/966500000000" target="_blank" rel="noreferrer">{tr("whatsapp")}</a>
+                <a href={business.whatsappHref} target="_blank" rel="noreferrer">{tr("whatsapp")}</a>
               </Button>
             </div>
           </aside>

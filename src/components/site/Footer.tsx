@@ -1,3 +1,4 @@
+import { business } from "@/lib/business";
 import { Link } from "@tanstack/react-router";
 import { Droplets, Facebook, Instagram, MessageCircle, Mail, Phone, MapPin } from "lucide-react";
 import { useLang } from "@/lib/i18n";
@@ -18,7 +19,7 @@ export function Footer() {
           <div className="mt-5 flex gap-3">
             <a href="#" aria-label="Facebook" className="grid h-9 w-9 place-items-center rounded-full bg-white/10 hover:bg-cyan-accent transition-colors"><Facebook className="h-4 w-4" /></a>
             <a href="#" aria-label="Instagram" className="grid h-9 w-9 place-items-center rounded-full bg-white/10 hover:bg-cyan-accent transition-colors"><Instagram className="h-4 w-4" /></a>
-            <a href="https://wa.me/966500000000" aria-label="WhatsApp" className="grid h-9 w-9 place-items-center rounded-full bg-white/10 hover:bg-cyan-accent transition-colors"><MessageCircle className="h-4 w-4" /></a>
+            <a href={business.whatsappHref} aria-label="WhatsApp" className="grid h-9 w-9 place-items-center rounded-full bg-white/10 hover:bg-cyan-accent transition-colors"><MessageCircle className="h-4 w-4" /></a>
           </div>
         </div>
 
@@ -29,6 +30,8 @@ export function Footer() {
             <li><Link to="/about" className="text-white/80 hover:text-white">{tr("nav_about")}</Link></li>
             <li><Link to="/services" className="text-white/80 hover:text-white">{tr("nav_services")}</Link></li>
             <li><Link to="/products" className="text-white/80 hover:text-white">{tr("nav_products")}</Link></li>
+            <li><Link to="/pricing" className="text-white/80 hover:text-white">{tr("nav_pricing")}</Link></li>
+            <li><Link to="/installation" className="text-white/80 hover:text-white">{tr("nav_installation")}</Link></li>
             <li><Link to="/contact" className="text-white/80 hover:text-white">{tr("nav_contact")}</Link></li>
           </ul>
         </div>
@@ -47,9 +50,9 @@ export function Footer() {
         <div>
           <h4 className="text-sm font-semibold uppercase tracking-wider text-cyan-accent">{tr("contact_title")}</h4>
           <ul className="mt-4 space-y-3 text-sm text-white/80">
-            <li className="flex items-start gap-2"><Phone className="mt-0.5 h-4 w-4 shrink-0 text-cyan-accent" /><span dir="ltr">+966 50 000 0000</span></li>
-            <li className="flex items-start gap-2"><Mail className="mt-0.5 h-4 w-4 shrink-0 text-cyan-accent" />info@ruwad-pumps.com</li>
-            <li className="flex items-start gap-2"><MapPin className="mt-0.5 h-4 w-4 shrink-0 text-cyan-accent" />{lang === "ar" ? "الرياض، المملكة العربية السعودية" : "Riyadh, Saudi Arabia"}</li>
+            <li className="flex items-start gap-2"><Phone className="mt-0.5 h-4 w-4 shrink-0 text-cyan-accent" /><a dir="ltr" href={business.phoneHref} className="hover:text-cyan-accent">{business.phoneDisplay}</a></li>
+            <li className="flex items-start gap-2"><Mail className="mt-0.5 h-4 w-4 shrink-0 text-cyan-accent" /><a href={business.emailHref} className="hover:text-cyan-accent">{business.email}</a></li>
+            <li className="flex items-start gap-2"><MapPin className="mt-0.5 h-4 w-4 shrink-0 text-cyan-accent" />{lang === "ar" ? business.addressAr : business.addressEn}</li>
           </ul>
         </div>
       </div>

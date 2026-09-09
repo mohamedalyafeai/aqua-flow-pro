@@ -14,6 +14,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { PageHeader } from "./about";
 import { submitLead } from "@/lib/leads.functions";
 import { products } from "@/lib/site-data";
+import { business } from "@/lib/business";
 
 const contactSearchSchema = zs.object({
   product: zs.string().optional(),
@@ -89,7 +90,7 @@ function ContactPage() {
           : "Your request was sent. We'll be in touch soon."
       );
       // Also open WhatsApp as a secondary fast channel
-      window.open(`https://wa.me/966500000000?text=${text}`, "_blank");
+      window.open(`${business.whatsappHref}?text=${text}`, "_blank");
       target.reset();
     } catch (err) {
       console.error(err);
@@ -104,11 +105,16 @@ function ContactPage() {
   };
 
   const contactItems = [
-    { Icon: Phone, label: tr("phone_label"), value: "+966 50 000 0000", href: "tel:+966500000000" },
-    { Icon: MessageCircle, label: tr("whatsapp"), value: "+966 50 000 0000", href: "https://wa.me/966500000000" },
-    { Icon: Mail, label: tr("email_label"), value: "info@ruwad-pumps.com", href: "mailto:info@ruwad-pumps.com" },
-    { Icon: MapPin, label: lang === "ar" ? "العنوان" : "Address", value: lang === "ar" ? "الرياض، المملكة العربية السعودية" : "Riyadh, Saudi Arabia" },
-    { Icon: Clock, label: lang === "ar" ? "ساعات العمل" : "Hours", value: tr("hours") },
+    { Icon: Phone, label: tr("phone_label"), value: business.phoneDisplay, href: business.phoneHref },
+    { Icon: MessageCircle, label: tr("whatsapp"), value: business.whatsappDisplay, href: business.whatsappHref },
+    { Icon: Mail, label: tr("email_label"), value: business.email, href: business.emailHref },
+    {
+      Icon: MapPin,
+      label: lang === "ar" ? "العنوان" : "Address",
+      value: lang === "ar" ? business.addressAr : business.addressEn,
+      href: business.mapLink,
+    },
+    { Icon: Clock, label: lang === "ar" ? "ساعات العمل" : "Hours", value: lang === "ar" ? business.hoursAr : business.hoursEn },
   ];
 
   return (
@@ -140,7 +146,7 @@ function ContactPage() {
             <div className="mt-6 overflow-hidden rounded-2xl border shadow-card">
               <iframe
                 title="Map"
-                src="https://www.google.com/maps?q=Riyadh&output=embed"
+                src={business.mapEmbed}
                 width="100%"
                 height="260"
                 loading="lazy"

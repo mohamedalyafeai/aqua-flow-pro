@@ -11,6 +11,8 @@ export const t: Dict = {
   nav_about: { ar: "من نحن", en: "About" },
   nav_services: { ar: "خدماتنا", en: "Services" },
   nav_products: { ar: "المنتجات", en: "Products" },
+  nav_pricing: { ar: "الأسعار", en: "Pricing" },
+  nav_installation: { ar: "التركيب", en: "Installation" },
   nav_contact: { ar: "تواصل معنا", en: "Contact" },
   cta_quote: { ar: "اطلب عرض سعر", en: "Request a Quote" },
   cta_contact: { ar: "تواصل معنا", en: "Contact Us" },
