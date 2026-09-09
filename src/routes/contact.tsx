@@ -105,11 +105,16 @@ function ContactPage() {
   };
 
   const contactItems = [
-    { Icon: Phone, label: tr("phone_label"), value: "+966 50 000 0000", href: "tel:+966500000000" },
-    { Icon: MessageCircle, label: tr("whatsapp"), value: "+966 50 000 0000", href: "https://wa.me/966500000000" },
-    { Icon: Mail, label: tr("email_label"), value: "info@ruwad-pumps.com", href: "mailto:info@ruwad-pumps.com" },
-    { Icon: MapPin, label: lang === "ar" ? "العنوان" : "Address", value: lang === "ar" ? "الرياض، المملكة العربية السعودية" : "Riyadh, Saudi Arabia" },
-    { Icon: Clock, label: lang === "ar" ? "ساعات العمل" : "Hours", value: tr("hours") },
+    { Icon: Phone, label: tr("phone_label"), value: business.phoneDisplay, href: business.phoneHref },
+    { Icon: MessageCircle, label: tr("whatsapp"), value: business.whatsappDisplay, href: business.whatsappHref },
+    { Icon: Mail, label: tr("email_label"), value: business.email, href: business.emailHref },
+    {
+      Icon: MapPin,
+      label: lang === "ar" ? "العنوان" : "Address",
+      value: lang === "ar" ? business.addressAr : business.addressEn,
+      href: business.mapLink,
+    },
+    { Icon: Clock, label: lang === "ar" ? "ساعات العمل" : "Hours", value: lang === "ar" ? business.hoursAr : business.hoursEn },
   ];
 
   return (
