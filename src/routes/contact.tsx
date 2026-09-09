@@ -89,7 +89,7 @@ function ContactPage() {
           : "Your request was sent. We'll be in touch soon."
       );
       // Also open WhatsApp as a secondary fast channel
-      window.open(`https://wa.me/966500000000?text=${text}`, "_blank");
+      window.open(`${business.whatsappHref}?text=${text}`, "_blank");
       target.reset();
     } catch (err) {
       console.error(err);
