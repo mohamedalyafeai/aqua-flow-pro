@@ -2,6 +2,8 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { CheckCircle2, Clock, ChevronRight, ChevronLeft, Wrench, Award } from "lucide-react";
 import { useLang } from "@/lib/i18n";
 import { Section } from "@/components/site/Section";
+import { modelsByCategory } from "@/lib/catalog";
+import { business } from "@/lib/business";
 import { getProductBySlug, products, type Application, type ProductSpec } from "@/lib/site-data";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -259,7 +261,7 @@ function CategoryPage() {
                 <Link to="/contact" search={{ product: product.slug }}>{tr("cta_quote")}</Link>
               </Button>
               <Button asChild variant="outline" className="mt-2 w-full">
-                <a href="https://wa.me/966500000000" target="_blank" rel="noreferrer">{tr("whatsapp")}</a>
+                <a href={business.whatsappHref} target="_blank" rel="noreferrer">{tr("whatsapp")}</a>
               </Button>
             </div>
           </aside>
