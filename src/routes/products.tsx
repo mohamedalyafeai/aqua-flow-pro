@@ -3,6 +3,7 @@ import { useMemo, useState } from "react";
 import { Search, SlidersHorizontal, X, CheckCircle2, Clock } from "lucide-react";
 import { useLang } from "@/lib/i18n";
 import { Section } from "@/components/site/Section";
+import { modelsByCategory, priceRangeForCategory } from "@/lib/catalog";
 import { products, type Application, type Availability, type PumpType } from "@/lib/site-data";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
