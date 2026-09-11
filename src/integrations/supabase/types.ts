@@ -103,6 +103,63 @@ export type Database = {
         }
         Relationships: []
       }
+      products: {
+        Row: {
+          applications: string[]
+          availability: string
+          brand: string
+          category: string
+          created_at: string
+          id: string
+          is_active: boolean
+          model: string
+          name_ar: string
+          name_en: string
+          price_max: number
+          price_min: number
+          slug: string
+          sort_order: number
+          specs: Json
+          updated_at: string
+        }
+        Insert: {
+          applications?: string[]
+          availability?: string
+          brand: string
+          category: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          model: string
+          name_ar: string
+          name_en: string
+          price_max?: number
+          price_min?: number
+          slug: string
+          sort_order?: number
+          specs?: Json
+          updated_at?: string
+        }
+        Update: {
+          applications?: string[]
+          availability?: string
+          brand?: string
+          category?: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          model?: string
+          name_ar?: string
+          name_en?: string
+          price_max?: number
+          price_min?: number
+          slug?: string
+          sort_order?: number
+          specs?: Json
+          updated_at?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
