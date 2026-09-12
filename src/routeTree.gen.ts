@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ServicesRouteImport } from './routes/services'
+import { Route as ProjectsRouteImport } from './routes/projects'
 import { Route as ProductsRouteImport } from './routes/products'
 import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as InstallationRouteImport } from './routes/installation'
@@ -21,6 +22,7 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProductsCategoryRouteImport } from './routes/products.$category'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedCatalogRouteImport } from './routes/_authenticated/catalog'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
@@ -30,6 +32,11 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
 const ServicesRoute = ServicesRouteImport.update({
   id: '/services',
   path: '/services',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProjectsRoute = ProjectsRouteImport.update({
+  id: '/projects',
+  path: '/projects',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProductsRoute = ProductsRouteImport.update({
@@ -81,6 +88,11 @@ const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedCatalogRoute = AuthenticatedCatalogRouteImport.update({
+  id: '/catalog',
+  path: '/catalog',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -90,8 +102,10 @@ export interface FileRoutesByFullPath {
   '/installation': typeof InstallationRoute
   '/pricing': typeof PricingRoute
   '/products': typeof ProductsRouteWithChildren
+  '/projects': typeof ProjectsRoute
   '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/catalog': typeof AuthenticatedCatalogRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/products/$category': typeof ProductsCategoryRoute
 }
@@ -103,8 +117,10 @@ export interface FileRoutesByTo {
   '/installation': typeof InstallationRoute
   '/pricing': typeof PricingRoute
   '/products': typeof ProductsRouteWithChildren
+  '/projects': typeof ProjectsRoute
   '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/catalog': typeof AuthenticatedCatalogRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/products/$category': typeof ProductsCategoryRoute
 }
@@ -118,8 +134,10 @@ export interface FileRoutesById {
   '/installation': typeof InstallationRoute
   '/pricing': typeof PricingRoute
   '/products': typeof ProductsRouteWithChildren
+  '/projects': typeof ProjectsRoute
   '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/_authenticated/catalog': typeof AuthenticatedCatalogRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/products/$category': typeof ProductsCategoryRoute
 }
@@ -133,8 +151,10 @@ export interface FileRouteTypes {
     | '/installation'
     | '/pricing'
     | '/products'
+    | '/projects'
     | '/services'
     | '/sitemap.xml'
+    | '/catalog'
     | '/dashboard'
     | '/products/$category'
   fileRoutesByTo: FileRoutesByTo
@@ -146,8 +166,10 @@ export interface FileRouteTypes {
     | '/installation'
     | '/pricing'
     | '/products'
+    | '/projects'
     | '/services'
     | '/sitemap.xml'
+    | '/catalog'
     | '/dashboard'
     | '/products/$category'
   id:
@@ -160,8 +182,10 @@ export interface FileRouteTypes {
     | '/installation'
     | '/pricing'
     | '/products'
+    | '/projects'
     | '/services'
     | '/sitemap.xml'
+    | '/_authenticated/catalog'
     | '/_authenticated/dashboard'
     | '/products/$category'
   fileRoutesById: FileRoutesById
@@ -175,6 +199,7 @@ export interface RootRouteChildren {
   InstallationRoute: typeof InstallationRoute
   PricingRoute: typeof PricingRoute
   ProductsRoute: typeof ProductsRouteWithChildren
+  ProjectsRoute: typeof ProjectsRoute
   ServicesRoute: typeof ServicesRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
 }
@@ -193,6 +218,13 @@ declare module '@tanstack/react-router' {
       path: '/services'
       fullPath: '/services'
       preLoaderRoute: typeof ServicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/projects': {
+      id: '/projects'
+      path: '/projects'
+      fullPath: '/projects'
+      preLoaderRoute: typeof ProjectsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/products': {
@@ -265,14 +297,23 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/catalog': {
+      id: '/_authenticated/catalog'
+      path: '/catalog'
+      fullPath: '/catalog'
+      preLoaderRoute: typeof AuthenticatedCatalogRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedCatalogRoute: typeof AuthenticatedCatalogRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedCatalogRoute: AuthenticatedCatalogRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
 }
 
@@ -300,6 +341,7 @@ const rootRouteChildren: RootRouteChildren = {
   InstallationRoute: InstallationRoute,
   PricingRoute: PricingRoute,
   ProductsRoute: ProductsRouteWithChildren,
+  ProjectsRoute: ProjectsRoute,
   ServicesRoute: ServicesRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
 }
