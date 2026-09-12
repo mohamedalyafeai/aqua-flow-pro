@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ServicesRouteImport } from './routes/services'
+import { Route as ProjectsRouteImport } from './routes/projects'
 import { Route as ProductsRouteImport } from './routes/products'
 import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as InstallationRouteImport } from './routes/installation'
@@ -31,6 +32,11 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
 const ServicesRoute = ServicesRouteImport.update({
   id: '/services',
   path: '/services',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProjectsRoute = ProjectsRouteImport.update({
+  id: '/projects',
+  path: '/projects',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProductsRoute = ProductsRouteImport.update({
@@ -96,6 +102,7 @@ export interface FileRoutesByFullPath {
   '/installation': typeof InstallationRoute
   '/pricing': typeof PricingRoute
   '/products': typeof ProductsRouteWithChildren
+  '/projects': typeof ProjectsRoute
   '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/catalog': typeof AuthenticatedCatalogRoute
@@ -110,6 +117,7 @@ export interface FileRoutesByTo {
   '/installation': typeof InstallationRoute
   '/pricing': typeof PricingRoute
   '/products': typeof ProductsRouteWithChildren
+  '/projects': typeof ProjectsRoute
   '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/catalog': typeof AuthenticatedCatalogRoute
@@ -126,6 +134,7 @@ export interface FileRoutesById {
   '/installation': typeof InstallationRoute
   '/pricing': typeof PricingRoute
   '/products': typeof ProductsRouteWithChildren
+  '/projects': typeof ProjectsRoute
   '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/_authenticated/catalog': typeof AuthenticatedCatalogRoute
@@ -142,6 +151,7 @@ export interface FileRouteTypes {
     | '/installation'
     | '/pricing'
     | '/products'
+    | '/projects'
     | '/services'
     | '/sitemap.xml'
     | '/catalog'
@@ -156,6 +166,7 @@ export interface FileRouteTypes {
     | '/installation'
     | '/pricing'
     | '/products'
+    | '/projects'
     | '/services'
     | '/sitemap.xml'
     | '/catalog'
@@ -171,6 +182,7 @@ export interface FileRouteTypes {
     | '/installation'
     | '/pricing'
     | '/products'
+    | '/projects'
     | '/services'
     | '/sitemap.xml'
     | '/_authenticated/catalog'
@@ -187,6 +199,7 @@ export interface RootRouteChildren {
   InstallationRoute: typeof InstallationRoute
   PricingRoute: typeof PricingRoute
   ProductsRoute: typeof ProductsRouteWithChildren
+  ProjectsRoute: typeof ProjectsRoute
   ServicesRoute: typeof ServicesRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
 }
@@ -205,6 +218,13 @@ declare module '@tanstack/react-router' {
       path: '/services'
       fullPath: '/services'
       preLoaderRoute: typeof ServicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/projects': {
+      id: '/projects'
+      path: '/projects'
+      fullPath: '/projects'
+      preLoaderRoute: typeof ProjectsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/products': {
@@ -321,6 +341,7 @@ const rootRouteChildren: RootRouteChildren = {
   InstallationRoute: InstallationRoute,
   PricingRoute: PricingRoute,
   ProductsRoute: ProductsRouteWithChildren,
+  ProjectsRoute: ProjectsRoute,
   ServicesRoute: ServicesRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
 }
